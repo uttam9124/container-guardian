@@ -1,0 +1,4 @@
+Timestamp,Container Name,Status,CPU Usage (%),Memory Usage (MB),Memory Usage (%)
+2026-11-12 17:53:25,guardian-test,RUNNING,0.0,1.48,2.32
+2026-11-12 17:53:25,nexus-container,EXITED,0.0,0.0,0.0
+2026-11-12 17:53:25,reverent_bhabha,EXITED,0.0,0.0,0.0
