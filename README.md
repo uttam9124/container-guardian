@@ -1,102 +1,213 @@
-# Container Guardian – Smart Docker Health Monitor
+# 🛡️ Container Guardian – Smart Docker Health Monitor
 
-Container Guardian is a Python-based Docker monitoring tool built using Python and Docker SDK.
+**A Python-based Docker monitoring and recovery system with automated alerts, Gmail notifications, and a real-time web dashboard.**
 
-It monitors Docker containers, detects stopped containers, tracks CPU and memory usage, generates alerts, and saves monitoring data in CSV format.
+Container Guardian monitors Docker containers, tracks CPU and memory usage, detects stopped containers, and helps maintain container health through configurable recovery actions.
 
-## Features
+It also provides a Flask-based web dashboard with resource usage charts and alert history.
 
-- Monitor all Docker containers.
+## 🚀 Key Features
+
+### V1 – Docker Health Monitoring
+- Monitor Docker containers using Python Docker SDK.
+- Track CPU and memory usage.
 - Detect stopped containers.
-- Automatically restart authorized containers.
-- Monitor CPU usage.
-- Monitor memory usage.
-- Generate alerts when CPU usage exceeds 80%.
-- Generate alerts when memory usage exceeds 80%.
+- Automatically restart only authorized containers.
 - Generate CSV monitoring reports.
-- Protect unauthorized containers from automatic restart.
+- Configurable CPU and memory thresholds.
 
-## Technologies Used
+### V2 – Continuous Monitoring & Email Alerts
+- Continuous monitoring with configurable intervals.
+- CPU and memory threshold alerts.
+- Gmail SMTP notifications.
+- Smart alert deduplication.
+- Recovery notifications when resource usage returns to normal.
+- Graceful shutdown using Ctrl+C.
+- Allowlisted container restart protection.
+
+### V3 – Web Dashboard
+- Flask-based web dashboard.
+- Live Docker container status.
+- CPU and RAM usage overview.
+- CPU and memory usage history charts.
+- Alert history with HIGH and RECOVERED events.
+- Automatic dashboard refresh every 5 seconds.
+
+## 🖥️ Dashboard Preview
+
+The dashboard displays:
+- Container names and statuses.
+- Container IDs.
+- CPU usage percentage.
+- Memory usage in MB.
+- RAM utilization percentage.
+- Resource usage history.
+- Alert history.
+
+## 🏗️ Project Architecture
+
+```text
+             Docker Engine
+                   |
+                   v
+          Python Docker SDK
+                   |
+                   v
+          Container Guardian
+                   |
+          +--------+--------+
+          |                 |
+          v                 v
+    monitor.py           app.py
+          |                 |
+          v                 v
+   CPU/RAM Monitor     Flask Dashboard
+          |                 |
+          v                 v
+    Alert Engine       Charts & History
+          |
+     +----+----+
+     |         |
+     v         v
+   Gmail      CSV
+ Notifications Reports
+```
+
+## 🛠️ Technologies Used
 
 - Python 3
 - Docker
 - Docker SDK for Python
-- Ubuntu Linux
-- CSV
+- Flask
+- Plotly
+- HTML and CSS
+- Gmail SMTP
+- Ubuntu Linux / WSL2
 - Git and GitHub
 
-## Project Structure
+## 📂 Project Structure
 
-    container-guardian/
-    ├── monitor.py
-    ├── requirements.txt
-    ├── container_report.csv
-    ├── README.md
-    └── .gitignore
+```text
+container-guardian/
+│
+├── app.py
+├── monitor.py
+├── requirements.txt
+├── container_report.csv
+├── README.md
+└── .gitignore
+```
 
-## Installation
+## ⚙️ Installation
 
-Clone the repository:
+### 1. Clone the repository
 
-    git clone YOUR_REPOSITORY_URL
-    cd container-guardian
+```bash
+git clone https://github.com/uttam9124/container-guardian.git
+cd container-guardian
+```
 
-Create a virtual environment:
+### 2. Create a virtual environment
 
-    python3 -m venv .venv
-    source .venv/bin/activate
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-Install dependencies:
+### 3. Install dependencies
 
-    pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
-Make sure Docker is installed and running.
+### 4. Start Docker
 
-## Configuration
+Make sure Docker Engine or Docker Desktop is running and accessible from your Ubuntu terminal.
 
-Configure the following values in monitor.py:
+### 5. Configure environment variables
 
-    RESTART_ALLOWED = {"guardian-test"}
-    CPU_THRESHOLD = 80.0
-    MEMORY_THRESHOLD = 80.0
+Configure your Gmail SMTP credentials using a local `.env` file, following the variable names expected by `monitor.py`.
 
-Only authorized containers can be automatically restarted.
+**Security:** Never commit `.env`, Gmail App Passwords, or other credentials to GitHub.
 
-## Run the Project
+## ▶️ Running the Project
 
-    python monitor.py
+### Start the monitoring system
 
-## Monitoring Report
+```bash
+python monitor.py
+```
 
-The program generates container_report.csv.
+The monitoring system continuously checks Docker containers and generates alerts when configured thresholds are exceeded.
 
-The report includes:
+### Start the web dashboard
 
-- Timestamp
-- Container Name
-- Container Status
-- CPU Usage
-- Memory Usage
-- Memory Percentage
+Open another Ubuntu terminal, activate the virtual environment, navigate to the project directory, and run:
 
-## Testing Performed
+```bash
+python app.py
+```
 
-- Container status monitoring
-- Automatic restart testing
-- CPU alert testing above 80%
-- Memory alert testing above 80%
-- CSV report generation
-- Memory cleanup testing
+Open the dashboard in your browser:
 
-## Future Improvements
+http://localhost:5000
 
-- Continuous monitoring
-- Email notifications
-- Web-based dashboard
-- Docker health check integration
+The dashboard refreshes automatically every 5 seconds.
 
-## Author
+## 📊 Monitoring Configuration
 
-Uttam Kumar Behera
+The monitoring system uses configurable settings in `monitor.py`.
+
+Example configuration:
+
+```python
+CPU_THRESHOLD = 80.0
+MEMORY_THRESHOLD = 80.0
+```
+
+Only explicitly authorized containers should be allowed to restart automatically.
+
+## 🧪 Testing Performed
+
+- Docker container status monitoring.
+- CPU usage stress testing.
+- Memory usage stress testing.
+- High CPU alert generation.
+- High memory alert generation.
+- Gmail notification delivery.
+- Recovery notification testing.
+- Automatic restart testing for authorized containers.
+- Protection of unauthorized containers.
+- CSV report generation.
+- Flask dashboard functionality.
+- Dashboard resource usage updates.
+- Alert history verification.
+
+## 🔒 Safety Features
+
+- Authorized-container restart allowlist.
+- Configurable resource thresholds.
+- Environment-based email credentials.
+- `.env` excluded from Git tracking.
+- No automatic restart of unauthorized containers.
+
+## 🔮 Future Improvements
+
+- Docker health-check integration.
+- Historical metrics storage.
+- Advanced monitoring analytics.
+- Authentication for the web dashboard.
+- Production deployment using a WSGI server.
+- Docker Compose deployment.
+
+## 👨‍💻 Author
+
+**Uttam Kumar Behera**
 
 Computer Science Graduate
+
+GitHub: https://github.com/uttam9124
+
+---
+
+⭐ If you find this project useful, consider giving it a star on GitHub.
